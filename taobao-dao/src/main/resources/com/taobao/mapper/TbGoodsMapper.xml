@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.taobao.mapper.TbGoodsMapper">
+    <resultMap id="BaseResultMap" type="com.taobao.pojo.TbGoods">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="BIGINT"/>
+        <result column="is_delete" property="isDelete" jdbcType="INTEGER"/>
+        <result column="big_img" property="bigImg" jdbcType="VARCHAR"/>
+        <result column="introduction" property="introduction" jdbcType="LONGVARCHAR"/>
+        <result column="specification" property="specification" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="DOUBLE"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.taobao.pojo.TbGoods" extends="BaseResultMap">
+        <result column="introduction" property="introduction" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="com.taobao.pojo.group.GoodsVo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="category_id" property="categoryId" jdbcType="BIGINT"/>
+        <result column="is_delete" property="isDelete" jdbcType="INTEGER"/>
+        <result column="introduction" property="introduction" jdbcType="LONGVARCHAR"/>
+        <result column="big_img" property="bigImg" jdbcType="VARCHAR"/>
+        <result column="specification" property="specification" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="DOUBLE"/>
+        <association property="goodsDesc"   javaType="com.taobao.pojo.TbGoodsDesc">
+            <id column="goods_id" property="goodsId" jdbcType="BIGINT"/>
+            <result column="comment_num" property="commentNum" jdbcType="INTEGER"/>
+            <result column="count" property="count" jdbcType="INTEGER"/>
+            <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+            <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+            <result column="comment_star_score" property="commentStarScore" jdbcType="INTEGER"/>
+        </association>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, name, title, status, category_id, is_delete, big_img, specification, price
+  </sql>
+    <sql id="Blob_Column_List">
+    introduction
+  </sql>
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.taobao.pojo.TbGoodsExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.taobao.pojo.TbGoodsExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from tb_goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_goods
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.taobao.pojo.TbGoodsExample">
+        delete from tb_goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.taobao.pojo.TbGoods">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into tb_goods (id, name, title,
+        status, category_id, is_delete,
+        big_img, specification, price,
+        introduction)
+        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
+        #{status,jdbcType=INTEGER}, #{categoryId,jdbcType=BIGINT}, #{isDelete,jdbcType=INTEGER},
+        #{bigImg,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE},
+        #{introduction,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.taobao.pojo.TbGoods">
+        insert into tb_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="bigImg != null">
+                big_img,
+            </if>
+            <if test="specification != null">
+                specification,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="bigImg != null">
+                #{bigImg,jdbcType=VARCHAR},
+            </if>
+            <if test="specification != null">
+                #{specification,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="introduction != null">
+                #{introduction,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.taobao.pojo.TbGoodsExample" resultType="java.lang.Integer">
+        select count(*) from tb_goods
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update tb_goods
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.title != null">
+                title = #{record.title,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=INTEGER},
+            </if>
+            <if test="record.categoryId != null">
+                category_id = #{record.categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="record.isDelete != null">
+                is_delete = #{record.isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="record.bigImg != null">
+                big_img = #{record.bigImg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.specification != null">
+                specification = #{record.specification,jdbcType=VARCHAR},
+            </if>
+            <if test="record.price != null">
+                price = #{record.price,jdbcType=DOUBLE},
+            </if>
+            <if test="record.introduction != null">
+                introduction = #{record.introduction,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update tb_goods
+        set id = #{record.id,jdbcType=BIGINT},
+        name = #{record.name,jdbcType=VARCHAR},
+        title = #{record.title,jdbcType=VARCHAR},
+        status = #{record.status,jdbcType=INTEGER},
+        category_id = #{record.categoryId,jdbcType=BIGINT},
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+        big_img = #{record.bigImg,jdbcType=VARCHAR},
+        specification = #{record.specification,jdbcType=VARCHAR},
+        price = #{record.price,jdbcType=DOUBLE},
+        introduction = #{record.introduction,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update tb_goods
+        set id = #{record.id,jdbcType=BIGINT},
+        name = #{record.name,jdbcType=VARCHAR},
+        title = #{record.title,jdbcType=VARCHAR},
+        status = #{record.status,jdbcType=INTEGER},
+        category_id = #{record.categoryId,jdbcType=BIGINT},
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+        big_img = #{record.bigImg,jdbcType=VARCHAR},
+        specification = #{record.specification,jdbcType=VARCHAR},
+        price = #{record.price,jdbcType=DOUBLE}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.taobao.pojo.TbGoods">
+        update tb_goods
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=INTEGER},
+            </if>
+            <if test="bigImg != null">
+                big_img = #{bigImg,jdbcType=VARCHAR},
+            </if>
+            <if test="specification != null">
+                specification = #{specification,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.taobao.pojo.TbGoods">
+    update tb_goods
+    set name = #{name,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=BIGINT},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      big_img = #{bigImg,jdbcType=VARCHAR},
+      specification = #{specification,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      introduction = #{introduction,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.taobao.pojo.TbGoods">
+    update tb_goods
+    set name = #{name,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=BIGINT},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      big_img = #{bigImg,jdbcType=VARCHAR},
+      specification = #{specification,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <!--关联查询-->
+    <select id="findById" resultMap="BaseResultMap2" parameterType="java.lang.Long">
+       select *
+       from tb_goods goods
+       inner join tb_goods_desc goodDesc
+       on goods.id=goodDesc.goods_id
+       where goods.id=#{id}
+
+    </select>
+
+</mapper>

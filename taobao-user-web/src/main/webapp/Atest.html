@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        五角星评分案例</title>
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .comment {
+            font-size: 40px;
+            color: teal;
+        }
+
+        .comment li {
+            float: left;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            var shixin = "★";
+            var kongxin = "☆";
+            /*var flag = false;//没有点击*/
+            $("li").mouseenter(function () {
+                $(this).text(shixin).prevAll().text(shixin);
+                $(this).nextAll().text(kongxin);
+                $(this).text(shixin).prevAll().text(shixin).end().nextAll().text(kongxin);
+            });
+            $(".comment").mouseleave(function () {
+                if (!flag) {
+                    $("li").text(kongxin);
+                }
+                $("li").text(kongxin);
+                $(".clicked").text(shixin).prevAll().text(shixin);
+            });
+            $("li").on("click", function () {
+                $(this).text(shixin).prevAll().text(shixin);
+                $(this).nextAll().text(kongxin);
+                flag = true;
+                $(this).addClass("clicked").siblings().removeClass("clicked");
+                var i = $(this).val();
+                alert("i = " + i);
+            });
+        });
+    </script>
+</head>
+<body>
+<ul class="comment">
+    <li value="1">
+        ☆
+    </li>
+    <li value="1">
+        ☆
+    </li>
+    <li value="1">
+        ☆
+    </li>
+    <li value="1">
+        ☆
+    </li>
+    <li value="5">
+        ☆
+    </li>
+</ul>
+</body>
+</html>

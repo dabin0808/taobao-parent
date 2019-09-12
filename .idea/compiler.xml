@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="taobao-comment-interface" />
+        <module name="taobao-comment-service" />
+        <module name="taobao-common" />
+        <module name="taobao-dao" />
+        <module name="taobao-goods-interface" />
+        <module name="taobao-goods-service" />
+        <module name="taobao-order-interface" />
+        <module name="taobao-order-service" />
+        <module name="taobao-pay-interface" />
+        <module name="taobao-pay-service" />
+        <module name="taobao-pojo" />
+        <module name="taobao-search-interface" />
+        <module name="taobao-search-service" />
+        <module name="taobao-search-web" />
+        <module name="taobao-seller-interface" />
+        <module name="taobao-seller-service" />
+        <module name="taobao-seller-web" />
+        <module name="taobao-shopcart-interface" />
+        <module name="taobao-shopcart-service" />
+        <module name="taobao-user-interface" />
+        <module name="taobao-user-service" />
+        <module name="taobao-user-web" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
